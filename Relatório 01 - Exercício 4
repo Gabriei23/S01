@@ -1,0 +1,17 @@
+10 INPUT "Digite a altura (em metros): ", A
+20 INPUT "Digite o peso (em kg): ", P
+
+30 H = A * 100
+40 H2 = H * H
+50 IMC = (P * 10000) / H2 * 100
+
+60 PRINT "Altura (m): "
+61 PRINT A
+
+70 PRINT "Peso (kg): "
+71 PRINT P
+
+80 PRINT "IMC: "
+81 PRINT IMC / 100
+
+90 END
