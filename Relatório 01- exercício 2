@@ -1,1 +1,13 @@
+10 RANDOMIZE TIMER
+20 N = INT(RND * 101)
+30 PRINT "Tente adivinhar o numero de 0 a 100."
+40 INPUT "Digite seu palpite: ", P
+
+50 IF P < N THEN PRINT "O numero correto e maior."
+60 IF P > N THEN PRINT "O numero correto e menor."
+70 IF P = N THEN GOTO 100
+80 GOTO 40
+
+100 PRINT "Parabens! Voce acertou. O numero era "; N
+110 END
 
