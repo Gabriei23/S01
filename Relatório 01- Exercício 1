@@ -1,0 +1,28 @@
+function encontrarMultiplos(m, n, x)
+    local multiplos = {}
+    for i = m, n do
+        if i % x == 0 then
+            table.insert(multiplos, i)
+        end
+    end
+    return multiplos
+end
+
+print("Digite o valor de M (início do intervalo):")
+local m = tonumber(io.read())
+
+print("Digite o valor de N (fim do intervalo):")
+local n = tonumber(io.read())
+
+print("Digite o número X para verificar os múltiplos:")
+local x = tonumber(io.read())
+
+if m >= n then
+    print("Erro: M deve ser menor que N.")
+else
+    local resultado = encontrarMultiplos(m, n, x)
+    print("Múltiplos de " .. x .. " entre " .. m .. " e " .. n .. ":")
+    for i = 1, #resultado do
+        print(resultado[i])
+    end
+end
