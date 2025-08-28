@@ -1,0 +1,23 @@
+function encontrarMaior(tabela)
+  local maior = tabela[1]
+  for i = 2, #tabela do
+      if tabela[i] > maior then
+          maior = tabela[i]
+      end
+  end
+  return maior
+end
+
+local numeros = {}
+
+print("Quantos números você quer inserir?")
+local quantidade = tonumber(io.read())
+
+for i = 1, quantidade do
+  print("Digite o número " .. i .. ":")
+  local numero = tonumber(io.read())
+  table.insert(numeros, numero)
+end
+
+local resultado = encontrarMaior(numeros)
+print("O maior número é:", resultado)
