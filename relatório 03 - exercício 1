@@ -1,0 +1,40 @@
+use std::io;
+
+fn verificar_senha(senha: &str) -> bool {
+    // Critério 1: pelo menos 8 caracteres
+    if senha.len() < 8 {
+        return false;
+    }
+
+    // Critério 2: pelo menos um número
+    if !senha.chars().any(|c| c.is_digit(10)) {
+        return false;
+    }
+
+    // Critério 3: pelo menos uma letra maiúscula
+    if !senha.chars().any(|c| c.is_ascii_uppercase()) {
+        return false;
+    }
+
+    true
+}
+
+fn main() {
+    loop {
+        println!("Digite uma senha:");
+
+        let mut senha = String::new();
+        io::stdin()
+            .read_line(&mut senha)
+            .expect("Erro ao ler a entrada");
+
+        let senha = senha.trim(); // remove espaços e quebras de linha
+
+        if verificar_senha(senha) {
+            println!("Senha válida! Acesso concedido.");
+            break;
+        } else {
+            println!("Senha inválida, tente novamente.\n");
+        }
+    }
+}
