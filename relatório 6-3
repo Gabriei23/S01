@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Pessoa {
+private:
+    string nome;
+    int idade;
+
+public:
+    Pessoa(string n, int i) {
+        nome = n;
+        idade = i;
+    }
+
+    string getNome() { return nome; }
+    int getIdade() { return idade; }
+
+    void setNome(string n) { nome = n; }
+    void setIdade(int i) { idade = i; }
+};
+
+class Protagonista : public Pessoa {
+private:
+    int nivel;
+
+public:
+    Protagonista(string n, int i, int nv) : Pessoa(n, i) {
+        nivel = nv;
+    }
+
+    int getNivel() { return nivel; }
+    void setNivel(int nv) { nivel = nv; }
+};
+
+class Personagem : public Pessoa {
+private:
+    int rank; // varia de 0 a 10
+
+public:
+    Personagem(string n, int i, int r) : Pessoa(n, i) {
+        if (r >= 0 && r <= 10) rank = r;
+        else rank = 0;
+    }
+
+    int getRank() { return rank; }
+    void setRank(int r) {
+        if (r >= 0 && r <= 10) rank = r;
+    }
+};
+
+int main() {
+  
+    Protagonista p1("Akira", 17, 5);
+
+    Personagem p2("Ryuji", 17, 7);
+
+    cout << "=== Protagonista ===" << endl;
+    cout << "Nome: " << p1.getNome() << endl;
+    cout << "Idade: " << p1.getIdade() << endl;
+    cout << "Nivel: " << p1.getNivel() << endl;
+
+    cout << "\n=== Personagem Aliado ===" << endl;
+    cout << "Nome: " << p2.getNome() << endl;
+    cout << "Idade: " << p2.getIdade() << endl;
+    cout << "Rank Social Link: " << p2.getRank() << endl;
+
+    return 0;
+}
