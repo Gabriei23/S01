@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Personagem {
+    string nome;
+    int nivel;
+    int dano;
+    int vida;
+};
+
+void atacar(Personagem &atacante, Personagem &alvo) {
+    cout << atacante.nome << " atacou " << alvo.nome << " causando " << atacante.dano << " de dano!" << endl;
+    alvo.vida -= atacante.dano;
+    if (alvo.vida < 0) alvo.vida = 0;
+}
+
+void exibirStatus(const Personagem &p) {
+    cout << "Nome: " << p.nome << " | Nivel: " << p.nivel << " | Dano: " << p.dano << " | Vida: " << p.vida << endl;
+}
+
+int main() {
+  
+    Personagem p1 = {"Arqueiro", 5, 20, 100};
+    Personagem p2 = {"Guerreiro", 7, 15, 120};
+
+    cout << "=== Status inicial ===" << endl;
+    exibirStatus(p1);
+    exibirStatus(p2);
+    cout << endl;
+
+    atacar(p1, p2);
+
+    cout << "\n=== Status após combate ===" << endl;
+    exibirStatus(p1);
+    exibirStatus(p2);
+
+    return 0;
+}
