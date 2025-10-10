@@ -1,0 +1,51 @@
+using System;
+
+abstract class MonstroSombrio
+{
+    public string Nome { get; set; }
+
+    public MonstroSombrio(string nome)
+    {
+        Nome = nome;
+    }
+
+    public abstract void Mover();
+}
+
+class Zumbi : MonstroSombrio
+{
+    public Zumbi(string nome) : base(nome) { }
+
+    public override void Mover()
+    {
+        Console.WriteLine($"{Nome} se arrasta lentamente em sua direção...");
+    }
+}
+
+class Espectro : MonstroSombrio
+{
+    public Espectro(string nome) : base(nome) { }
+
+    public override void Mover()
+    {
+        Console.WriteLine($"{Nome} flutua rapidamente através das sombras!");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        MonstroSombrio[] horda = new MonstroSombrio[3];
+
+        horda[0] = new Zumbi("Zumbi Podre");
+        horda[1] = new Espectro("Espectro Sombrio");
+        horda[2] = new Zumbi("Zumbi Faminto");
+
+        Console.WriteLine("--- A Horda Sombria se aproxima! ---\n");
+        foreach (MonstroSombrio monstro in horda)
+        {
+            monstro.Mover();
+        }
+    }
+}
