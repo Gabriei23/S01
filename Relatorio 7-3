@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+
+class Feitico
+{
+    public string Nome { get; set; }
+    public string Efeito { get; set; }
+
+    public Feitico(string nome, string efeito)
+    {
+        Nome = nome;
+        Efeito = efeito;
+    }
+
+    public void MostrarFeitico()
+    {
+        Console.WriteLine($"Feitiço: {Nome} - Efeito: {Efeito}");
+    }
+}
+
+class Grimorio
+{
+    private List<Feitico> feiticos;
+
+    public Grimorio()
+    {
+        feiticos = new List<Feitico>();
+    }
+
+    public void AdicionarFeitico(Feitico f)
+    {
+        feiticos.Add(f);
+    }
+
+    public void MostrarFeiticos()
+    {
+        Console.WriteLine("\n--- Feitiços do Grimório ---");
+        foreach (Feitico f in feiticos)
+        {
+            f.MostrarFeitico();
+        }
+    }
+}
+
+class Ferramenta
+{
+    public string Nome { get; set; }
+
+    public Ferramenta(string nome)
+    {
+        Nome = nome;
+    }
+}
+
+class Maga
+{
+    public string Nome { get; set; }
+    public Grimorio Grimorio { get; private set; }
+    public List<Ferramenta> Ferramentas { get; private set; }
+
+    public Maga(string nome, Grimorio grimorio, List<Ferramenta> ferramentas)
+    {
+        Nome = nome;
+        Grimorio = grimorio;
+        Ferramentas = ferramentas;
+    }
+
+    public void MostrarFerramentas()
+    {
+        Console.WriteLine($"\n--- Ferramentas de {Nome} ---");
+        foreach (Ferramenta f in Ferramentas)
+        {
+            Console.WriteLine(f.Nome);
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<Ferramenta> ferramentas = new List<Ferramenta>
+        {
+            new Ferramenta("Cajado"),
+            new Ferramenta("Lanterna Mágica"),
+            new Ferramenta("Mapa Antigo")
+        };
+
+        Grimorio grimorio = new Grimorio();
+
+        Maga frieren = new Maga("Frieren", grimorio, ferramentas);
+
+        grimorio.AdicionarFeitico(new Feitico("Raio Arcano", "Dispara um feixe de energia mágica"));
+        grimorio.AdicionarFeitico(new Feitico("Escudo Etéreo", "Cria uma barreira de proteção"));
+
+        frieren.MostrarFerramentas();
+        grimorio.MostrarFeiticos();
+    }
+}
