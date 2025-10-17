@@ -1,0 +1,52 @@
+class Heroi:
+    def _init_(self, nome, funcao):
+        self.nome = nome
+        self.funcao = funcao
+
+    def usar_ultimate(self):
+        raise NotImplementedError("Este método deve ser implementado nas classes filhas.")
+
+class Tanque(Heroi):
+    def _init_(self, nome):
+        super()._init_(nome, "Tanque")
+
+    def usar_ultimate(self):
+        print(f"{self.nome} (Tanque) usou sua ultimate: escudo impenetrável!")
+
+class Dano(Heroi):
+    def _init_(self, nome):
+        super()._init_(nome, "Dano")
+
+    def usar_ultimate(self):
+        print(f"{self.nome} (Dano) usou sua ultimate: chuva de projéteis!")
+
+class Suporte(Heroi):
+    def _init_(self, nome):
+        super()._init_(nome, "Suporte")
+
+    def usar_ultimate(self):
+        print(f"{self.nome} (Suporte) usou sua ultimate: cura em área poderosa!")
+
+herois = []
+
+qtd = int(input("Quantos heróis deseja criar? "))
+
+for i in range(qtd):
+    nome = input("\nDigite o nome do herói: ")
+    funcao = input("Função (tanque/dano/suporte): ").strip().lower()
+
+    if funcao == "tanque":
+        heroi = Tanque(nome)
+    elif funcao == "dano":
+        heroi = Dano(nome)
+    elif funcao == "suporte":
+        heroi = Suporte(nome)
+    else:
+        print("Função inválida, criando como Suporte por padrão.")
+        heroi = Suporte(nome)
+
+    herois.append(heroi)
+
+print("\n=== Usando ultimates ===")
+for h in herois:
+    h.usar_ultimate()
