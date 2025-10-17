@@ -1,0 +1,35 @@
+class Personagem:
+    def _init_(self, vida, resistencia):
+        self._vida = vida
+        self._resistencia = resistencia
+
+    @property
+    def vida(self):
+        return self._vida
+
+    @vida.setter
+    def vida(self, nova_vida):
+        if nova_vida >= 0:
+            self._vida = nova_vida
+        else:
+            print("A vida não pode ser negativa!")
+
+    def _str_(self):
+        return f"Personagem com {self._vida} de vida e {self._resistencia} de resistência."
+
+class Cavaleiro(Personagem):
+    def _init_(self, vida, resistencia, armadura_pesada):
+        super()._init_(vida, resistencia)
+        self._armadura_pesada = armadura_pesada
+
+    def _str_(self):
+        tipo_armadura = "possui armadura pesada" if self._armadura_pesada else "não possui armadura pesada"
+        return f"Cavaleiro com {self._vida} de vida, {self._resistencia} de resistência e que {tipo_armadura}."
+
+vida = int(input("Digite a vida: "))
+resistencia = int(input("Digite a resistência: "))
+armadura_input = input("Possui armadura pesada? (s/n): ").lower()
+armadura_pesada = armadura_input == "s"
+
+personagem = Cavaleiro(vida, resistencia, armadura_pesada)
+print(personagem)
