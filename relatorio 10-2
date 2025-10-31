@@ -1,0 +1,68 @@
+class ODM_Gear {
+    constructor(modelo) {
+        this.modelo = modelo;
+        this.gasRestante = 100;
+    }
+
+    usarGas(quantidade) {
+        this.gasRestante -= quantidade;
+        if (this.gasRestante < 0) this.gasRestante = 0;
+        console.log(`Usando ${quantidade} de gás. Restante: ${this.gasRestante}`);
+    }
+
+    getGas() {
+        return this.gasRestante;
+    }
+}
+
+class Soldado {
+    constructor(nome, modeloGear) {
+        this.nome = nome;
+        this.gear = new ODM_Gear(modeloGear);
+    }
+
+    explorarTerritorio() {
+        this.gear.usarGas(20);
+        return `${this.nome} está explorando o território com ${this.gear.modelo}`;
+    }
+
+    verificarEquipamento() {
+        return `Equipamento ${this.gear.modelo} possui ${this.gear.getGas()} de gás restante.`;
+    }
+}
+
+class Esquadrao {
+    constructor(lider, membrosIniciais = []) {
+        this.lider = lider;
+        this.membros = membrosIniciais;
+    }
+
+    adicionarMembro(soldado) {
+        this.membros.push(soldado);
+    }
+
+    explorarTerritorio() {
+        console.log(`O esquadrão liderado por ${this.lider.nome} iniciou a exploração!`);
+        this.membros.forEach(m => console.log(m.explorarTerritorio()));
+    }
+
+    relatarStatus() {
+        return this.membros.map(m => `${m.nome}: ${m.verificarEquipamento()}`);
+    }
+}
+
+// ===== Entrada do usuário =====
+const nomeLider = prompt("Nome do líder do esquadrão:");
+const modeloLider = prompt("Modelo do ODM Gear do líder:");
+const lider = new Soldado(nomeLider, modeloLider);
+
+const nomeMembro = prompt("Nome do soldado auxiliar:");
+const modeloMembro = prompt("Modelo do ODM Gear do soldado auxiliar:");
+const membro = new Soldado(nomeMembro, modeloMembro);
+
+const esquadrao = new Esquadrao(lider, [membro]);
+
+// ===== Saída =====
+esquadrao.explorarTerritorio();
+console.log("Status final dos equipamentos:");
+console.log(esquadrao.relatarStatus().join("\n"));
