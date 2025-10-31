@@ -1,0 +1,82 @@
+class Criatura {
+    constructor(nome, perigosa) {
+        this.nome = nome;
+        this.perigosa = perigosa;
+    }
+}
+
+class Diario {
+    #autorSecreto;
+    constructor(autor) {
+        this.#autorSecreto = autor;
+        this.enigmas = new Map();
+        this.criaturasAvistadas = [];
+    }
+
+    getAutor() {
+        return this.#autorSecreto;
+    }
+
+    adicionarEnigma(num, enigma) {
+        this.enigmas.set(num, enigma);
+    }
+
+    decodificar(chave, num) {
+        if (chave === this.#autorSecreto && this.enigmas.has(num)) {
+            return `Enigma ${num}: ${this.enigmas.get(num)}`;
+        }
+        return "Acesso negado!";
+    }
+}
+
+class Personagem {
+    constructor(nome, idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+}
+
+class Protagonista extends Personagem {
+    constructor(nome, idade, autor) {
+        super(nome, idade);
+        this.diario = new Diario(autor);
+    }
+}
+
+class CabanaMisterio {
+    constructor(diario) {
+        this.diario = diario;
+        this.funcionarios = [];
+        this.visitantes = [];
+    }
+
+    adicionarFuncionario(personagem) {
+        this.funcionarios.push(personagem);
+    }
+
+    listarFuncionarios() {
+        return this.funcionarios.map(f => `${f.nome} (${f.idade} anos)`);
+    }
+}
+
+// ===== Entrada do usuário =====
+const nomeProtagonista = prompt("Nome do protagonista:");
+const idadeProtagonista = parseInt(prompt("Idade do protagonista:"));
+const chaveSecreta = prompt("Defina a chave secreta do diário:");
+const protagonista = new Protagonista(nomeProtagonista, idadeProtagonista, chaveSecreta);
+
+protagonista.diario.adicionarEnigma(1, "As criaturas só aparecem à noite.");
+protagonista.diario.adicionarEnigma(2, "A cabana esconde um portal secreto.");
+
+const cabana = new CabanaMisterio(protagonista.diario);
+
+const nomeFuncionario = prompt("Nome do funcionário da Cabana Mistério:");
+const idadeFuncionario = parseInt(prompt("Idade do funcionário:"));
+const funcionario = new Personagem(nomeFuncionario, idadeFuncionario);
+cabana.adicionarFuncionario(funcionario);
+
+// ===== Saída =====
+console.log(`Protagonista: ${protagonista.nome}`);
+console.log(protagonista.diario.decodificar(prompt("Digite a chave para decodificar:"), 1));
+console.log("Funcionários da Cabana Mistério:");
+console.log(cabana.listarFuncionarios().join("\n"));
