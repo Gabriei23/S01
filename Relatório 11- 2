@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Classe base Cafe
 class Cafe {
     protected String nome;
     protected double precoBase;
@@ -25,7 +24,6 @@ class Cafe {
     }
 }
 
-// Classe derivada CafeGourmet (herda de Cafe)
 class CafeGourmet extends Cafe {
     private double bonusAroma;
 
@@ -41,7 +39,6 @@ class CafeGourmet extends Cafe {
     }
 }
 
-// Classe Menu (composição de Cafés)
 class Menu {
     private ArrayList<Cafe> itens;
 
@@ -68,7 +65,6 @@ class Menu {
     }
 }
 
-// Classe CafeLeblanc (possui um Menu)
 class CafeLeblanc {
     private Menu menu;
 
@@ -87,7 +83,6 @@ class CafeLeblanc {
     }
 }
 
-// Classe principal
 public class CafeLeblancApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
