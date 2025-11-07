@@ -1,1 +1,92 @@
+import java.util.HashMap;
+
+interface Rastreador {
+    String obterCoordenadas();
+}
+
+class Poder {
+    String nome;
+
+    public Poder(String nome) {
+        this.nome = nome;
+    }
+}
+
+abstract class Entidade implements Rastreador {
+    String nome;
+    String localizacao;
+    Poder poder;
+
+    public Entidade(String nome, String local, Poder poder) {
+        this.nome = nome;
+        this.localizacao = local;
+        this.poder = poder;
+    }
+}
+
+class Alien extends Entidade {
+    String planetaOrigem;
+    String ovni;
+
+    public Alien(String nome, String local, String planetaOrigem, String ovni, Poder poder) {
+        super(nome, local, poder);
+        this.planetaOrigem = planetaOrigem;
+        this.ovni = ovni;
+    }
+
+    @Override
+    public String obterCoordenadas() {
+        return "Alien " + nome + " vindo de " + planetaOrigem + " está em " + localizacao;
+    }
+}
+
+class Youkai extends Entidade {
+    public Youkai(String nome, String local, Poder poder) {
+        super(nome, local, poder);
+    }
+
+    @Override
+    public String obterCoordenadas() {
+        return "Youkai " + nome + " detectado em " + localizacao;
+    }
+}
+
+class RegistroOculto {
+    String nomeEquipe;
+    HashMap<String, Entidade> avistamentos = new HashMap<>();
+
+    public RegistroOculto(String nomeEquipe) {
+        this.nomeEquipe = nomeEquipe;
+    }
+
+    public boolean registrarAvistamento(Entidade entidade) {
+        if (!avistamentos.containsKey(entidade.nome)) {
+            avistamentos.put(entidade.nome, entidade);
+            return true;
+        }
+        return false;
+    }
+
+    public void listarAvistamentos() {
+        for (Entidade e : avistamentos.values()) {
+            System.out.println(e.obterCoordenadas());
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Poder fogo = new Poder("Fogo");
+        Poder gelo = new Poder("Gelo");
+
+        Alien a1 = new Alien("Xarg", "Montanhas", "Plutão", "Zeta-9", fogo);
+        Youkai y1 = new Youkai("Kitsune", "Floresta", gelo);
+
+        RegistroOculto registro = new RegistroOculto("Equipe Secreta");
+        registro.registrarAvistamento(a1);
+        registro.registrarAvistamento(y1);
+
+        registro.listarAvistamentos();
+    }
+}
 
