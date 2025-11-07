@@ -1,0 +1,92 @@
+import java.util.*;
+
+// Classe que representa o padrão de ataque de um Boss
+class PadraoAtaque {
+    String nome;
+    int dano;
+
+    public PadraoAtaque(String nome, int dano) {
+        this.nome = nome;
+        this.dano = dano;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " (" + dano + " de dano)";
+    }
+}
+
+// Classe base Boss com composição e conjunto de ataques
+class Boss {
+    String nome;
+    String idBoss;
+    String pontoFraco;
+    LinkedHashSet<PadraoAtaque> moveset = new LinkedHashSet<>();
+
+    public Boss(String nome, String idBoss, String pontoFraco) {
+        this.nome = nome;
+        this.idBoss = idBoss;
+        this.pontoFraco = pontoFraco;
+    }
+
+    public void adicionarAtaque(PadraoAtaque ataque) {
+        moveset.add(ataque);
+    }
+
+    public void iniciarFase() {
+        System.out.println("Iniciando fase de " + nome);
+        System.out.println("Ataques disponíveis:");
+        for (PadraoAtaque a : moveset) {
+            System.out.println("- " + a);
+        }
+    }
+}
+
+// Classe BossMágico que herda de Boss
+class BossMagico extends Boss {
+    public BossMagico(String nome, String idBoss, String pontoFraco) {
+        super(nome, idBoss, pontoFraco);
+    }
+
+    @Override
+    public void iniciarFase() {
+        System.out.println("O Boss Mágico " + nome + " invoca feitiços poderosos!");
+        super.iniciarFase();
+    }
+}
+
+// Classe Batalha com agregação de Bosses via HashMap
+class Batalha {
+    HashMap<String, Boss> arena = new HashMap<>();
+
+    public void adicionarBoss(Boss boss) {
+        arena.put(boss.idBoss, boss);
+    }
+
+    public void iniciarBatalha(String idBoss) {
+        Boss boss = arena.get(idBoss);
+        if (boss != null) {
+            System.out.println("Batalha iniciada contra: " + boss.nome);
+            boss.iniciarFase();
+        } else {
+            System.out.println("Boss não encontrado na arena.");
+        }
+    }
+}
+
+// Classe principal para teste
+public class Main {
+    public static void main(String[] args) {
+        PadraoAtaque golpe1 = new PadraoAtaque("Chama Sombria", 50);
+        PadraoAtaque golpe2 = new PadraoAtaque("Explosão Arcana", 80);
+
+        BossMagico boss1 = new BossMagico("Azaroth", "B001", "Luz Sagrada");
+        boss1.adicionarAtaque(golpe1);
+        boss1.adicionarAtaque(golpe2);
+
+        Batalha arena = new Batalha();
+        arena.adicionarBoss(boss1);
+
+        arena.iniciarBatalha("B001");
+    }
+}
