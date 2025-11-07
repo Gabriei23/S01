@@ -1,0 +1,124 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Classe base Personagem
+class Personagem {
+    private String nome;
+    private int idade;
+
+    public Personagem(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+}
+
+// Classe Mago (herda de Personagem)
+class Mago extends Personagem {
+    private String magia;
+
+    public Mago(String nome, int idade, String magia) {
+        super(nome, idade);
+        this.magia = magia;
+    }
+
+    public String getMagia() {
+        return magia;
+    }
+
+    public void setMagia(String magia) {
+        this.magia = magia;
+    }
+
+    public String lancarFeitico() {
+        return getNome() + " lançou o feitiço: " + magia + "!";
+    }
+}
+
+// Classe Divisao
+class Divisao {
+    private String nome;
+
+    public Divisao(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+
+// Classe Castelo (agrega Divisoes)
+class Castelo {
+    private String nome;
+    private ArrayList<Divisao> divisoes;
+
+    public Castelo(String nome) {
+        this.nome = nome;
+        this.divisoes = new ArrayList<>();
+    }
+
+    public void adicionarDivisao(Divisao divisao) {
+        divisoes.add(divisao);
+    }
+
+    public void listarDivisoes() {
+        System.out.println("Divisões do castelo " + nome + ":");
+        for (Divisao d : divisoes) {
+            System.out.println("- " + d.getNome());
+        }
+    }
+}
+
+// Classe principal com entrada de dados
+public class CasteloAnimado {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o nome do castelo: ");
+        String nomeCastelo = sc.nextLine();
+        Castelo castelo = new Castelo(nomeCastelo);
+
+        System.out.print("Quantas divisões o castelo possui? ");
+        int qtdDivisoes = sc.nextInt();
+        sc.nextLine(); // limpar buffer
+
+        for (int i = 0; i < qtdDivisoes; i++) {
+            System.out.print("Nome da divisão " + (i + 1) + ": ");
+            String nomeDivisao = sc.nextLine();
+            Divisao d = new Divisao(nomeDivisao);
+            castelo.adicionarDivisao(d);
+        }
+
+        castelo.listarDivisoes();
+
+        System.out.println("\n--- Criando um mago habitante ---");
+        System.out.print("Nome do mago: ");
+        String nomeMago = sc.nextLine();
+        System.out.print("Idade do mago: ");
+        int idadeMago = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Magia do mago: ");
+        String magia = sc.nextLine();
+
+        Mago mago = new Mago(nomeMago, idadeMago, magia);
+        System.out.println(mago.lancarFeitico());
+
+        sc.close();
+    }
+}
