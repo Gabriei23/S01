@@ -1,0 +1,138 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Classe base Cafe
+class Cafe {
+    protected String nome;
+    protected double precoBase;
+
+    public Cafe(String nome, double precoBase) {
+        this.nome = nome;
+        this.precoBase = precoBase;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double calcularPrecoFinal() {
+        return precoBase;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " - R$ " + String.format("%.2f", calcularPrecoFinal());
+    }
+}
+
+// Classe derivada CafeGourmet (herda de Cafe)
+class CafeGourmet extends Cafe {
+    private double bonusAroma;
+
+    public CafeGourmet(String nome, double precoBase, double bonusAroma) {
+        super(nome, precoBase);
+        this.bonusAroma = bonusAroma;
+    }
+
+    @Override
+    public double calcularPrecoFinal() {
+        // Polimorfismo: adiciona bônus ao preço base
+        return precoBase + bonusAroma;
+    }
+}
+
+// Classe Menu (composição de Cafés)
+class Menu {
+    private ArrayList<Cafe> itens;
+
+    public Menu() {
+        this.itens = new ArrayList<>();
+    }
+
+    public void adicionarItem(Cafe cafe) {
+        itens.add(cafe);
+    }
+
+    public void exibirMenu() {
+        System.out.println("\n📜 MENU DA CAFETERIA LEBLANC:");
+        for (int i = 0; i < itens.size(); i++) {
+            System.out.println((i + 1) + ". " + itens.get(i));
+        }
+    }
+
+    public Cafe getCafe(int indice) {
+        if (indice >= 0 && indice < itens.size()) {
+            return itens.get(indice);
+        }
+        return null;
+    }
+}
+
+// Classe CafeLeblanc (possui um Menu)
+class CafeLeblanc {
+    private Menu menu;
+
+    public CafeLeblanc(Menu menu) {
+        this.menu = menu;
+    }
+
+    public void receberPedido(Cafe cafe) {
+        System.out.println("\n☕ Pedido recebido: " + cafe.getNome());
+        System.out.println("Preço final: R$ " + String.format("%.2f", cafe.calcularPrecoFinal()));
+        System.out.println("Obrigado por comprar na Cafeteria Leblanc!");
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+}
+
+// Classe principal
+public class CafeLeblancApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Menu menu = new Menu();
+
+        System.out.println("=== Sistema da Cafeteria Leblanc ===");
+        System.out.print("Quantos cafés deseja cadastrar? ");
+        int qtd = sc.nextInt();
+        sc.nextLine();
+
+        for (int i = 0; i < qtd; i++) {
+            System.out.print("\nCafé " + (i + 1) + " é Gourmet (S/N)? ");
+            String tipo = sc.nextLine();
+
+            System.out.print("Nome do café: ");
+            String nome = sc.nextLine();
+
+            System.out.print("Preço base: ");
+            double preco = sc.nextDouble();
+
+            if (tipo.equalsIgnoreCase("S")) {
+                System.out.print("Bônus de aroma: ");
+                double bonus = sc.nextDouble();
+                sc.nextLine();
+                menu.adicionarItem(new CafeGourmet(nome, preco, bonus));
+            } else {
+                sc.nextLine();
+                menu.adicionarItem(new Cafe(nome, preco));
+            }
+        }
+
+        CafeLeblanc cafeteria = new CafeLeblanc(menu);
+
+        menu.exibirMenu();
+        System.out.print("\nEscolha o número do café que deseja pedir: ");
+        int escolha = sc.nextInt();
+
+        Cafe selecionado = menu.getCafe(escolha - 1);
+        if (selecionado != null) {
+            cafeteria.receberPedido(selecionado);
+        } else {
+            System.out.println("Café inválido!");
+        }
+
+        sc.close();
+    }
+}
