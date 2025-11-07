@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Classe base Personagem
 class Personagem {
     private String nome;
     private int idade;
@@ -28,7 +27,6 @@ class Personagem {
     }
 }
 
-// Classe Mago (herda de Personagem)
 class Mago extends Personagem {
     private String magia;
 
@@ -50,7 +48,6 @@ class Mago extends Personagem {
     }
 }
 
-// Classe Divisao
 class Divisao {
     private String nome;
 
@@ -63,7 +60,6 @@ class Divisao {
     }
 }
 
-// Classe Castelo (agrega Divisoes)
 class Castelo {
     private String nome;
     private ArrayList<Divisao> divisoes;
@@ -85,7 +81,6 @@ class Castelo {
     }
 }
 
-// Classe principal com entrada de dados
 public class CasteloAnimado {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
