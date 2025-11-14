@@ -1,0 +1,47 @@
+data Bebida = Bebida
+  { nome  :: String
+  , tipo  :: String
+  , preco :: Double
+  } deriving (Show)
+
+data Status = Aberto | Entregue | Cancelado
+  deriving (Show, Eq)
+
+data Pedido = Pedido
+  { bebidas :: [Bebida]
+  , status  :: Status
+  } deriving (Show)
+
+valorTotalPedido :: Pedido -> Double
+valorTotalPedido (Pedido bs st)
+  | st == Cancelado = 0
+  | otherwise       = sum (map preco bs) + 5.0
+
+primeiraBebida :: Pedido -> String
+primeiraBebida (Pedido [] _) = "Nenhuma bebida no pedido."
+primeiraBebida (Pedido (b:_) _) = nome b
+
+lerBebida :: IO Bebida
+lerBebida = do
+    n <- getLine
+    t <- getLine
+    p <- readLn
+    return (Bebida n t p)
+
+lerStatus :: IO Status
+lerStatus = do
+    s <- getLine
+    return (case s of
+        "Aberto"    -> Aberto
+        "Entregue"  -> Entregue
+        "Cancelado" -> Cancelado
+        _ -> Aberto)
+
+main :: IO ()
+main = do
+    qtd <- readLn
+    bs <- sequence (replicate qtd lerBebida)
+    st <- lerStatus
+    let pedido = Pedido bs st
+    putStrLn ("Primeira bebida: " ++ primeiraBebida pedido)
+    print (valorTotalPedido pedido)
