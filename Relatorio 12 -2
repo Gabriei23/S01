@@ -1,0 +1,46 @@
+data Item = Item
+  { nome  :: String
+  , categoria :: String
+  , preco :: Double
+  } deriving (Show)
+
+data CompraZelda = CompraZelda
+  { itens :: [Item]
+  } deriving (Show)
+
+calculaDesconto :: [Item] -> Double
+calculaDesconto xs =
+  let total = sum (map preco xs)
+  in if total > 200 then total * 0.10 else 0
+
+valorFinal :: CompraZelda -> Double
+valorFinal (CompraZelda xs)
+  | total > 200 = total - calculaDesconto xs
+  | otherwise   = total + 15
+  where total = sum (map preco xs)
+
+ex1 :: CompraZelda
+ex1 = CompraZelda
+  [ Item "Espada" "Arma" 180
+  , Item "Poção de Vida" "Poção" 40
+  ]
+
+ex2 :: CompraZelda
+ex2 = CompraZelda
+  [ Item "Escudo" "Equipamento" 120
+  , Item "Poção Pequena" "Poção" 30
+  ]
+
+ex3 :: CompraZelda
+ex3 = CompraZelda
+  [ Item "Arco" "Arma" 90
+  ]
+
+main :: IO ()
+main = do
+  print ex1
+  print (valorFinal ex1)
+  print ex2
+  print (valorFinal ex2)
+  print ex3
+  print (valorFinal ex3)
