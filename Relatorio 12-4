@@ -1,0 +1,63 @@
+data Servico = Servico
+  { nome  :: String
+  , tipo  :: String
+  , preco :: Double
+  } deriving (Show)
+
+data Status = EmAndamento | Finalizado | Cancelado
+  deriving (Show, Eq)
+
+data Atendimento = Atendimento
+  { servicos :: [Servico]
+  , statusA  :: Status
+  } deriving (Show)
+
+bonusEspiritual :: [Servico] -> Double
+bonusEspiritual ss
+  | length ss > 3 = total * 1.25
+  | total > 500   = total * 0.90
+  | otherwise     = total
+  where total = sum (map preco ss)
+
+valorFinalAtendimento :: Atendimento -> Double
+valorFinalAtendimento (Atendimento ss st)
+  | st == Cancelado = 0
+  | otherwise = bonusEspiritual ss
+
+descricaoPrimeiroServico :: Atendimento -> String
+descricaoPrimeiroServico (Atendimento [] _) = "Nenhum serviço disponível."
+descricaoPrimeiroServico (Atendimento (s:_) _) =
+  nome s ++ " - " ++ tipo s
+
+at1 :: Atendimento
+at1 = Atendimento
+  [ Servico "Banho Medicinal" "Banho" 200
+  , Servico "Banquete Real" "Banquete" 250
+  , Servico "Massagem Espiritual" "Massagem" 180
+  ]
+  Finalizado
+
+at2 :: Atendimento
+at2 = Atendimento
+  [ Servico "Banho de Ervas" "Banho" 150
+    , Servico "Banquete Leve" "Banquete" 120
+    , Servico "Massagem Simples" "Massagem" 90
+    , Servico "Massagem Avançada" "Massagem" 160
+  ]
+  EmAndamento
+
+at3 :: Atendimento
+at3 = Atendimento
+  [ Servico "Banho Rápido" "Banho" 80 ]
+  Cancelado
+
+main :: IO ()
+main = do
+  print (valorFinalAtendimento at1)
+  putStrLn (descricaoPrimeiroServico at1)
+
+  print (valorFinalAtendimento at2)
+  putStrLn (descricaoPrimeiroServico at2)
+
+  print (valorFinalAtendimento at3)
+  putStrLn (descricaoPrimeiroServico at3)
