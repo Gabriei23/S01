@@ -1,0 +1,61 @@
+data Banda = Banda
+  { nome  :: String
+  , genero :: String
+  , cache :: Double
+  } deriving (Show)
+
+data Status = Ativo | Encerrado | Cancelado
+  deriving (Show, Eq)
+
+data Evento = Evento
+  { bandas :: [Banda]
+  , status :: Status
+  } deriving (Show)
+
+custoTotalEvento :: Evento -> Double
+custoTotalEvento (Evento bs st)
+  | st == Cancelado = 0
+  | otherwise = total * 1.20
+  where total = sum (map cache bs)
+
+bandaAbertura :: Evento -> String
+bandaAbertura (Evento [] _) = "Nenhuma banda de abertura."
+bandaAbertura (Evento (b:_) _) = nome b
+
+bandaFechamento :: Evento -> String
+bandaFechamento (Evento [] _) = "Nenhuma banda para fechar a noite."
+bandaFechamento (Evento bs _) = nome (last bs)
+
+ev1 :: Evento
+ev1 = Evento
+  [ Banda "ThunderRock" "Rock" 8000
+  , Banda "SkyMelody" "Pop" 6000
+  , Banda "NightWolves" "Metal" 9000
+  ]
+  Ativo
+
+ev2 :: Evento
+ev2 = Evento
+  [ Banda "Sunrise" "Indie" 5000
+  , Banda "BlueJazz" "Jazz" 7000
+  ]
+  Encerrado
+
+ev3 :: Evento
+ev3 = Evento
+  [ Banda "SilentEcho" "Alternativo" 4000 ]
+  Cancelado
+
+main :: IO ()
+main = do
+  print (custoTotalEvento ev1)
+  putStrLn (bandaAbertura ev1)
+  putStrLn (bandaFechamento ev1)
+
+  print (custoTotalEvento ev2)
+  putStrLn (bandaAbertura ev2)
+  putStrLn (bandaFechamento ev2)
+
+  print (custoTotalEvento ev3)
+  putStrLn (bandaAbertura ev3)
+  putStrLn (bandaFechamento ev3)
